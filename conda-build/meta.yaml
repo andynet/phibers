@@ -11,16 +11,14 @@ build:
 
 requirements:
   run:
-    - python >=3.6
-    - prokka >=1.14
-    - blast
-    - scikit-learn =0.18.0
-    - scipy <0.19
+    - biopython
+    - python=3.6
     - pandas
+    - scikit-learn=0.23.2
 
 test:
   commands:
-    - phibers
+    - phibers -h
 
 about:
   summary: Prediction of tail fiber proteins

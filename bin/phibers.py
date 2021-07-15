@@ -74,7 +74,7 @@ def get_fastas(source):
     return fastas
     
 
-def start(source):
+def start(source, output):
     """Starts the process... """
     fastas = get_fastas(source)
     if(len(fastas) == 0):
@@ -97,10 +97,9 @@ def start(source):
     print(f"Number of positively predicted: {np.count_nonzero(prediction)}")
     
     two_mer_df['prediction'] = prediction
-    name = os.path.join(os.path.dirname(source), 'phibers_results.csv')
     result = pd.DataFrame(two_mer_df['prediction'])
-    result.to_csv(name, index=True)
-    print(f"Predictions saved to {name}.")
+    result.to_csv(output, index=True, index_label="Protein ID")
+    print(f"Predictions saved to {output}.")
     
 def now():
     return time.time()
@@ -110,15 +109,15 @@ def main():
     the start function."""
     
     parser = ArgumentParser()
-    parser.add_argument('-f', help='path to fasta file or directory of fasta files')
+    parser.add_argument('-f', "--fasta",  help='path to fasta file or directory of fasta files', required=True)
+    parser.add_argument('-o', "--output", help='output file', required=True)
     args = parser.parse_args()
-    source_file = args.f
+    fasta_file = args.fasta
+    output_file = args.output
 
-#    file = 'data/hundred.faa'
-    
     start_time = now()
     print("Welcome to phibers.")
-    start(source_file)
+    start(fasta_file, output_file)
     end_time = now()
     print(f"Finished! It took {end_time - start_time} seconds.")
 
